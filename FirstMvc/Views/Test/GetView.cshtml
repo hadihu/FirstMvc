@@ -1,0 +1,33 @@
+﻿@using FirstMvc.ViewModels
+@model EmployeeListViewModel
+
+@{
+    Layout = null;
+}
+@{
+    //FirstMvc.Models.Employee emp = (FirstMvc.Models.Employee)ViewData["Employee"];
+    //FirstMvc.Models.Employee emp = (FirstMvc.Models.Employee)ViewBag.Employee;
+    
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetView</title>
+</head>
+<body>
+    <div>
+        Hello @Model.UserName
+        @foreach(EmployeeViewModel item in Model.Employees)
+        {
+            <ul>
+                <li>Employee Name:@item.EmployeeName </li>
+            
+                <li style ="background-color:@item.SalaryColor">Salary:@item.Salary </li>
+            </ul>
+            
+        }
+    </div>
+</body>
+</html>
