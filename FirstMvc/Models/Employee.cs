@@ -11,7 +11,7 @@ namespace FirstMvc.Models
         [Key]
         public int EmployeeId { get; set; }
 
-        [Required(ErrorMessage = "Enter First Name")]
+        [FirstNameValidation]
         public string FirstName { get; set; }
         
         [StringLength(5, ErrorMessage = "Last Name length should not be greater than 5")]

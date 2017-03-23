@@ -13,8 +13,8 @@
 <body>
     <div> 
         <form action="/Employee/SaveEmployee" method="post">
-            First Name: <input type="text" id="TxtFName" name="FirstName" value="" /><br />
-            Last Name: <input type="text" id="TxtLName" name="LastName" value="" /><br />
+            First Name: <input type="text" id="TxtFName" name="FirstName" value="" />@Html.ValidationMessage("FirstName")<br />
+            Last Name: <input type="text" id="TxtLName" name="LastName" value="" />@Html.ValidationMessage("LastName")<br />
             Salary: <input type="text" id="TxtSalary" name="Salary" value="" /><br />
             <input type="submit" name="BtnSubmit" value="Save Employee" />
             <input type="button" name="BtnReset" value="Reset" />
