@@ -1,4 +1,5 @@
-﻿using FirstMvc.Models;
+﻿using FirstMvc.Filters;
+using FirstMvc.Models;
 using FirstMvc.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace FirstMvc.Controllers
             return "Hello MVC!"; 
         }
 
+        [AdminFilter]
         public ActionResult Index()
         {
             //Employee emp = new Employee();
@@ -33,7 +35,6 @@ namespace FirstMvc.Controllers
             //return View("GetView", evm);
 
             EmployeeListViewModel employeeListViewModel = new EmployeeListViewModel();
-      
             EmployeeBusinessLayer empBal = new EmployeeBusinessLayer();
             List<Employee> employees = empBal.GetEmployees();
       
@@ -56,14 +57,21 @@ namespace FirstMvc.Controllers
             }
             employeeListViewModel.Employees = empViewModels;
             //employeeListViewModel.UserName = "Admin";
+            employeeListViewModel.UserName = User.Identity.Name;
+
+            employeeListViewModel.FooterData = new FooterViewModel();
+            employeeListViewModel.FooterData.CompanyName = "comc";
+            employeeListViewModel.FooterData.Year = DateTime.Now.Year.ToString();
+
             return View("Index", employeeListViewModel);
         }
 
+        [Authorize]
         public ActionResult AddNew()
         {
-            return View("CreateEmployee");
+            return View("CreateEmployee", new CreateEmployeeViewModel());
         }
-
+        [AdminFilter]
         public ActionResult  SaveEmployee(Employee e, string BtnSubmit)
         {
             switch(BtnSubmit)
@@ -77,13 +85,35 @@ namespace FirstMvc.Controllers
                     }
                     else
                     {
-                        return View("CreateEmployee");
+                        CreateEmployeeViewModel vm = new CreateEmployeeViewModel();
+                        vm.FirstName = e.FirstName;
+                        vm.LastName = e.LastName;
+                        if (e.Salary > 0)
+                        {
+                            vm.Salary = e.Salary.ToString();
+                        }
+                        else
+                        {
+                            vm.Salary = ModelState["Salary"].Value.AttemptedValue;
+                        }
+                        return View("CreateEmployee",vm);
                     }
                 case "Cancel":
                     return RedirectToAction("Index");
             }
             return new EmptyResult();
         }
-      
+
+        public ActionResult GetAddNewLink()
+        {
+            if (Convert.ToBoolean(Session["IsAdmin"]))
+            {
+                return PartialView("AddNewLink");
+            }
+            else
+            {
+                return new EmptyResult();
+            }
+        }
 	}
 }

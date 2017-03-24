@@ -18,17 +18,23 @@
 </head>
 <body>
     <div>
-        Hello 
-        @foreach(EmployeeViewModel item in Model.Employees)
-        {
-            <ul>
-                <li>Employee Name:@item.EmployeeName </li>
-            
-                <li style ="background-color:@item.SalaryColor">Salary:@item.Salary </li>
-            </ul>
-            
+        <div style="text-align:right">
+            Hello @Model.UserName
+            <a href="/Authentication/Logout">Logout</a>
+        </div>
+            @foreach (EmployeeViewModel item in Model.Employees)
+            {
+                <ul>
+                    <li>Employee Name:@item.EmployeeName </li>
+
+                    <li style="background-color:@item.SalaryColor">Salary:@item.Salary </li>
+                </ul>
+
+            }
+            @{Html.RenderAction("GetAddNewLink");}
+        </div>
+        @{
+            Html.RenderPartial("Footer", @Model.FooterData);
         }
-        <a href ="/Employee/AddNew">Add New</a>
-</div>
 </body>
 </html>

@@ -42,6 +42,27 @@ namespace FirstMvc.Models
             return e;
 
         }
+
+        public bool IsValidUser(UserDetails u)
+        {
+            return (u.UserName == "admin" && u.Password == "admin");
+        }
+
+        public UserStatus GetUserValidity(UserDetails u)
+        {
+            if (u.UserName == "admin" && u.Password == "admin")
+            {
+                return UserStatus.AuthenticatedAdmin;
+            }
+            else if (u.UserName == "user" && u.Password == "user")
+            {
+                return UserStatus.AuthentucatedUser;
+            }
+            else
+            {
+                return UserStatus.NonAuthenticatedUser;
+            }
+        }
     }
 
 }
